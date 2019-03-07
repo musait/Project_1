@@ -1,0 +1,40 @@
+<div class="modal-body">
+  <%= form_for [:admin, @event], html: {method: :post},class:"p-x-xs" do |f| %>
+    <div class="form-group row">
+      <div class="col-sm-12">
+         <%= f.text_field :title, placeholder: "Titre",class:"form-control rounded" %> <br>
+         <%= f.text_field :description, placeholder: "Description",class:"form-control rounded" %> <br>
+         <%= f.label :start, "Début de l'évenement", class: 'control-label' %><br>
+          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+            <%= f.text_field(:start, class: "form-control rounded datetimepicker-input", data: {target:"#datetimepicker1"}) %>
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fas fa-calendar-plus"></i></div>
+             </div>
+           </div>
+          <br><br>
+          <%= f.label :end, "Fin de l'évenement", class: 'control-label' %><br>
+            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+              <%= f.text_field(:end, class: "form-control rounded datetimepicker-input", data: {target:"#datetimepicker2"}) %>
+              <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fas fa-calendar-plus"></i></div>
+               </div>
+             </div>
+            <br><br>
+          <% f.hidden_field :user_id, value: current_user.id, class: 'form-control rounded' %><br>
+
+          <p>Adresse de l'évenement : </p>
+          <%= fields_for :address do |a| %>
+           <%= a.text_field :voie_type,class:"form-control rounded", id: :autocomplete_address%><br>
+           <%= a.text_field :number, placeholder: "Numéro",class:"form-control rounded", id: :street_number %><br>
+           <%= a.text_field :street, placeholder: "Nom de la voie",class:"form-control rounded", id: :route %><br>
+           <%= a.text_field :postal_code, placeholder: "Code Postal",class:"form-control rounded", id: :postal_code %><br>
+           <%= a.text_field :city, placeholder: "Ville",class:"form-control rounded", id: :locality %><br>
+
+
+        <%= f.submit "Envoyer" ,id:"submitButton",class:"btn btn-primary"%>
+        <% end %> <br>
+      </div>
+    </div>
+  <%end%>
+</div>
+<%= render "/admin/dashboards/events/script_datetimepicker"%>

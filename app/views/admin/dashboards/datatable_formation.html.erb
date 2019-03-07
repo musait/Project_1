@@ -1,0 +1,83 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left" %>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "layouts/navbar_top" %>
+        <div ui-view class="app-body" id="view">
+          <div class="padding">
+            <div class="box">
+              <div class="box-header">
+                <h2>Formations</h2>
+              </div>
+              <div class="table-responsive">
+                <table id="users" class="table table-striped b-t b-b" class="display" >
+                  <thead>
+                    <tr>
+                      <th  style="width:20%">Titre</th>
+                      <th  style="width:25%">Description</th>
+                      <th  style="width:25%">Lien Youtube</th>
+                      <th  style="width:15%">Autorisation</th>
+                      <th  style="width:15%">Position</th>
+                      <th  style="width:15%">Modifier</th>
+                      <th  style="width:15%">Supprimer</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <% Formation.all.each do |u| %>
+                      <tr>
+                      <td style="width:16.66%"> <%=u.title%> </td>
+                      <td class="textControl" style="width:16.66%"> <%=u.description%> </td>
+                      <td style="width:16.66%"> <%=u.link%> </td>
+                      <td style="width:16.66%"> <%=u.positions.collect(&:name).join(" , ")%> </td>
+                      <td style="width:16.66%"> <%=u.position_number %> </td>
+                      <td style="width:8.33%">
+                          <%= link_to "Modifier", edit_admin_formation_path(id: u.id) %>
+                      </td>
+                      <td style="width:8.33%">
+                          <%= link_to "Supprimer", admin_formation_path(id: u), method: :delete,data: { confirm: "Êtes vous sûr de vouloir supprimer cet élément ?" } %>
+                      </td>
+                    </tr>
+                      <%end%>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_formation_modal">Ajouter une formation</button>
+            <!-- The Modal -->
+            <div class="modal" id="add_formation_modal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Ajout d'une formation</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <%= form_for [:admin,Formation.new], url: new_admin_formation_path, html: {method: :post},class:"p-x-xs" do |f| %>
+                      <div class="form-group row">
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control rounded" <%= f.text_field :title, placeholder: "Titre" %> <br>
+                          <input type="text" class="form-control rounded" <%= f.text_field :description, placeholder: "Description" %> <br>
+
+                          <input type="text" class="form-control rounded" <%= f.text_field :link, placeholder: "Lien Youtube" %>
+                          <small>Veuillez s'il vous plait intégrer le bon lien Youtube(avec le "embed") Vous pouvez trouver ce lien ici : (A voir comment décrire la manip) </small> <br><br>
+
+                          <%= f.collection_check_boxes(:position_ids, Position.all,:id,:name) do |b| %>
+                              <%= b.label %>
+                              <%= b.check_box class:"ui-check"%>
+                            <% end %>
+                          <input type="text" class="form-control rounded" <%= f.text_field :position_number, placeholder: "Placement" %> <br>
+                          <%= f.submit "Envoyer" ,class:"btn btn-primary"%>
+                        </div>
+                      </div>
+                    <%end%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<script>
+  $('#datetimepicker1').datetimepicker({
+  format: 'D MMMM YYYY h:mm A',
+  stepping: 15,
+  minDate: Date(),
+  maxDate: new Date(Date.now() + (365 * 24 * 60 * 60 * 1000)),
+  sideBySide: false,
+  icons: {
+    up: 'fas fa-arrow-up',
+    down: 'fas fa-arrow-down',
+    previous: 'fas fa-chevron-left',
+    next: 'fas fa-chevron-right',
+    close: 'fas fa-times'
+  },
+});
+
+$('#datetimepicker2').datetimepicker({
+format: 'D MMMM YYYY h:mm A',
+stepping: 15,
+minDate: Date(),
+maxDate: new Date(Date.now() + (365 * 24 * 60 * 60 * 1000)),
+sideBySide: false,
+icons: {
+  up: 'fas fa-arrow-up',
+  down: 'fas fa-arrow-down',
+  previous: 'fas fa-chevron-left',
+  next: 'fas fa-chevron-right',
+  close: 'fas fa-times'
+},
+});
+
+</script>

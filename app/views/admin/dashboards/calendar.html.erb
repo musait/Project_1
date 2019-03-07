@@ -1,0 +1,160 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left" %>
+  <div id="content" class="app-content box-shadow-z0" role="main">
+    <%= render "layouts/navbar_top" %>
+    <div ui-view="ui-view" class="app-body" id="view">
+      <!-- ############ PAGE START-->
+      <div class="padding">
+        <div class="row m-b">
+        </div>
+        <div id="calendar"></div>
+        <div id="remote_container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var linktomodif = '<%=link_to "Edit",edit_admin_event_path(id:0), remote: true, class: "btn btn-primary btn-sm", id: "modify"%>';
+
+var linktodelete = '<%= link_to "Supprimer",admin_event_path(id:0), method: :delete, data: { confirm: "Êtes vous sûr de vouloir supprimer cet élément ?" }, class: "btn btn-danger btn-sm"%>';
+
+var initialize_calendar;
+initialize_calendar = function() {
+  $('#calendar').each(function(){
+    var calendar = $(this);
+    calendar.fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      selectable: true,
+      selectHelper: true,
+      eventLimit: true,
+      displayEventTime: false,
+      events: '/admin/events.json',
+//-----------------------------------------------------------------------
+// fonction qui sert à display les infos d'un event dans un popover
+      eventRender: function(event, element) {
+        $(element).popover({
+          placement: 'top',
+          trigger: 'click',
+          html : true,
+          title : event.title,
+          content : '<p>' + "Début : " + event.start.format('ddd Do MMM YYYY à h:mm a  ') + '</p><p>' + "Fin : " + event.end.format('ddd Do MMM YYYY à h:mm a') + '<p>' + event.description + '</p><p>'+ event.address.number + ' '+ event.address.street + ' '+ event.address.postal_code + ' '+ event.address.city + '</p><p>'+
+          'Organisateur: '+event.user.surname + ' '+ event.user.lastname + '</p><p>'+
+          linktomodif.replace(0, event.id) + ' ' + linktodelete.replace(0,event.id)+'</p>'
+        });
+      },
+//-----------------------------------------------------------------------
+// fonction qui sert à display une modal de création d'event lors d'un clique sur une date
+      select: function(start, end) {
+        if(start.isBefore(moment())) {
+        $('#calendar').fullCalendar('unselect');
+        alert("Vous ne pouvez pas créer un événement à une date postérieur à la date d'aujourd'hui")
+        return false;
+    }
+        closePopovers();
+        $.getScript('/admin/events/new', function() {});
+        $('#new_event').modal('show');
+
+        calendar.fullCalendar('unselect');
+      },
+//-----------------------------------------------------------------------
+// fonction qui permet de déclencher une modal edit lors du clique sur le bouton edit du popover
+      eventClick: function(event, jsEvent, view) {
+        document.getElementById("modify").addEventListener("click", functionModify);
+
+        function functionModify() {
+          closePopovers();
+          $.getScript('/admin/events/'+event.id+'/edit');
+        }
+        calendar.fullCalendar('unselect');
+      },
+//-----------------------------------------------------------------------
+// fonction permettant la modification des dates des evenement en drag&drop dans le calendrier
+// fonctionnalité à revoir
+
+    //   eventDrop: function(event, delta, revertFunc) {
+    //     if(event.start.isBefore(moment())) {
+    //     $('#calendar').fullCalendar('unselect');
+    //     alert("Vous ne pouvez pas créer un événement à une date postérieur à la date d'aujourd'hui")
+    //     return false;
+    //   }
+    //     else
+    //     {
+    //     event_data = {
+    //       event: {
+    //         id: event.id,
+    //         title: event.title,
+    //         description: event.description,
+    //         address_number: event.address.number,
+    //         address_voie: event.address.voie_type,
+    //         address_street: event.address.street,
+    //         address_postal_code: event.address.postal_code,
+    //         address_city: event.address.city,
+    //         user_id: event.user_id,
+    //         start: event.start.format(),
+    //         end: event.end.format()
+    //     }
+    //       }
+    //     };
+    //     $.ajax({
+    //         url: event.update_url,
+    //         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+    //         data: event_data,
+    //         type: 'POST'
+    //     });
+    //   },
+ });
+//-----------------------------------------------------------------------
+// fonction qui permet de fermer les popovert lors d'un create ou d'un edit d'event
+      function closePopovers() {
+        $('.popover').popover('hide');
+      }
+//-----------------------------------------------------------------------
+  });
+};
+$(document).on('turbolinks:load', initialize_calendar);
+
+</script>
+
+<script>
+$(document).on('turbolinks:load', function() {
+  $('#remote_container').on('shown.bs.modal', function () {
+      function initializeAutocomplete(id) {
+        console.log("Salut")
+          var element = document.getElementById(id);
+          console.log("Salut")
+          if (element) {
+            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'fr'} });
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+          }
+      }
+      function onPlaceChanged() {
+          var place = this.getPlace();
+          console.log(place)
+
+          // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+
+        for (var i in place.address_components) {
+        var component = place.address_components[i];
+          for (var j in component.types) {  // Some types are ["country", "political"]
+            var type_element = document.getElementById(component.types[j]);
+            if (type_element) {
+              type_element.value = component.long_name;
+            }
+          }
+        }
+      }
+      initializeAutocomplete('autocomplete_address');
+    
+  })
+})
+</script>
+<style>
+    .pac-container {
+        z-index: 10000 !important;
+    }
+</style>

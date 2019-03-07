@@ -1,0 +1,66 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left" %>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "layouts/navbar_top" %>
+      <div ui-view class="app-body" id="view">
+        <div class="padding">
+          <div class="box">
+            <div class="box-header">
+              <h2>Numéro d'identification</h2>
+            </div>
+            <div class="table-responsive">
+
+              <table id="id_number" class="table table-striped b-t b-b" class="display" >
+
+
+                <thead>
+                  <tr>
+                    <th style="width:100%">N° d'identification</th>
+                    <th style="width:100%">Supprimer</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                    <% @id_numbers.each do |u| %>
+                    <tr>
+                      <td style="width:80%"><%=u.id_number%></td>
+                      <td style="width:20%">
+                        <% if current_user.admin? %>
+                          <%= link_to "Supprimer", admin_identification_number_path(u) , method: :delete, data: { confirm: "Êtes vous sûr de vouloir supprimer cet élément ?" } %>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <%end%>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_id_modal">Ajouter un ID</button>
+          <!-- The Modal -->
+          <div class="modal" id="add_id_modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Ajout d'un ID</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <%= form_for [:admin,IdentificationNumber.new], url: admin_identification_numbers_new_path, html: {method: :post},class:"p-x-xs" do |f| %>
+                    <div class="form-group row">
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control rounded"<%= f.text_field :id_number, placeholder: "78786543" %> <br>
+                        <%= f.submit "Envoyer" ,class:"btn btn-primary"%>
+                      </div>
+                    </div>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

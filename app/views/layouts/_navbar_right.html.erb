@@ -1,0 +1,12 @@
+<ul class="nav navbar-nav ml-auto flex-row">
+  <li class="nav-item dropdown">
+    <a class="nav-link p-0 clear" data-toggle="dropdown">
+      <div class="col-md-3 col-xs-6"><i class="material-icons md-24">&#xe851;</i></div>
+    </a>
+    <div class="dropdown-menu dropdown-menu-overlay pull-right">
+        <%= link_to('Mon Profil', edit_user_registration_path(id: current_user.id), class:"dropdown-item")%>
+      <div class="dropdown-divider"></div>
+      <%= link_to('Se déconnecter',  destroy_user_session_path, :method => :delete, class:"dropdown-item") %>
+    </div>
+  </li>
+</ul>

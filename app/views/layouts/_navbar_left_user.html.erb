@@ -1,0 +1,36 @@
+<div id="aside" class="app-aside modal nav-dropdown">
+  <!-- fluid app aside -->
+  <div class="left navside dark dk" data-layout="column">
+    <div class="navbar no-radius">
+      <!-- brand -->
+      <a class="navbar-brand">
+        <div ui-include="'/html/assets/images/logo.svg'"></div>
+        <img src="/html/assets/images/logo.png" alt="." class="hide">
+        <span class="hidden-folded inline">Flatkit</span>
+      </a>
+      <!-- / brand -->
+    </div>
+    <div class="hide-scroll" data-flex>
+      <nav class="scroll nav-light">
+        <ul class="nav" ui-nav>
+          <li>
+            <a href="/formations" >
+              <span class="nav-icon">
+                <i class="fa fa-book"></i>
+              </span>
+              <span class="nav-text">Formations</span>
+            </a>
+          </li>
+          <li>
+          <%= link_to calendrier_path, :method => :get do %>
+              <span class="nav-icon">
+              <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="nav-text">Calendrier</span>
+            <%end%>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

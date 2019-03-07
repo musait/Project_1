@@ -1,0 +1,38 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left_user" %>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "layouts/navbar_top" %>
+        
+          <div ui-view class="app-body" id="view">
+            <div class="padding">
+            	<div class="row">
+            		<div class="col-sm-6 col-md-12">
+            			<div class="row">
+                    <% if Formation.count == 0 %>
+                      <p> Il n'y a aucune formation disponible actuellement</p>
+                    <%else%>
+                      <%Formation.all.each do |f| %>
+                        <% for i in 0..f.positions.count%>
+                          <% if current_user.positions[0].name == f.positions.collect(&:name)[i]%>
+                    				<div class="col-xs-6 col-sm-12 col-md-6 col-0">
+                    					<div class="box">
+                    						<div class="item">
+                                  <iframe width="623" height="280" src="<%=f.link%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    						</div>
+                    						<div class="p-a">
+                    							<div class="m-b h-2x"><b><%=f.title%></b></div>
+                                  <p class="textControl" ><%=f.description%></p>
+                    						</div>
+                    					</div>
+                    				</div>
+                          <%end%>
+                        <%end%>
+                      <%end%>
+                    <%end%>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+          </div>
+    </div>
+</div>

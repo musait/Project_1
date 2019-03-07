@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<!-- ############ LAYOUT START-->
+  <div class="center-block w-xxl w-auto-xs p-y-md">
+    <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+      <div class="m-b text-sm">
+        Connexion
+      </div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <form name="form">
+          <div class="md-form-group float-label">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email",class:"md-input" %>
+          </div>
+          <div class="md-form-group float-label">
+            <%= f.label :mot_de_passe %><br />
+            <%= f.password_field :password, autocomplete: "current-password",class:"md-input" %>
+          </div>
+          <div class="m-b-md">
+          </div>
+          <%= f.submit "Connexion",class:"btn primary btn-block p-x-md" %>
+        </form>
+      <%end%>
+    </div>
+
+    <div class="p-v-lg text-center">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</body>
+</html>

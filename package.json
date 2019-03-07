@@ -1,0 +1,7 @@
+{
+  "name": "lafrench",
+  "private": true,
+  "dependencies": {
+    "jquery-datetimepicker": "^2.5.20"
+  }
+}

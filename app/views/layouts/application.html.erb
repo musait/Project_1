@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>La French</title>
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=#{ENV['GOOGLE_API_BROWSER_KEY']}"  %>   
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Affileo">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- FAVICON ICONS -->
+    <link rel="shortcut icon" type="image/png" href="<%#= asset_path("favicon.png") %>">
+    <link rel="stylesheet" href="/html/assets/animate.css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="/html/assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="/html/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/html/assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="/html/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css /html/assets/styles/app.min.css -->
+    <link rel="stylesheet" href="/html/assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="/html/assets/styles/font.css" type="text/css" />
+    <link rel="stylesheet" href="/libs/jquery/plugins/integration/bootstrap/3/dataTables.bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/libs/jquery/fullcalendar/dist/fullcalendar.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+
+
+
+
+
+  </head>
+
+  <body>
+    <% if notice %>
+      <div id="notice_wrapper">
+        <p class="notice"><%= notice %></p>
+      </div>
+      <% elsif alert %>
+      <div id="notice_wrapper">
+        <p class="alert"><%= alert %></p>
+      </div>
+    <%end%>
+
+    <%= yield %>
+
+
+
+  <script src="/libs/jquery/jquery/dist/jquery.js"></script>
+  <script src="/libs/jquery/tether/dist/js/tether.min.js"></script>
+  <script src="/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="/libs/jquery/underscore/underscore-min.js"></script>
+  <script src="/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+  <script src="/libs/jquery/PACE/pace.min.js"></script>
+  <script src="/html/scripts/config.lazyload.js"></script>
+
+  <script src="/html/scripts/palette.js"></script>
+  <script src="/html/scripts/ui-load.js"></script>
+  <script src="/html/scripts/ui-jp.js"></script>
+  <script src="/html/scripts/ui-include.js"></script>
+  <script src="/html/scripts/ui-device.js"></script>
+  <script src="/html/scripts/ui-form.js"></script>
+  <script src="/html/scripts/ui-nav.js"></script>
+  <script src="/html/scripts/ui-screenfull.js"></script>
+  <script src="/html/scripts/ui-scroll-to.js"></script>
+  <script src="/html/scripts/ui-toggle-class.js"></script>
+  <script src="/html/scripts/app.js"></script>
+  <script src="/html/scripts/fs-modal.min.js"></script>
+
+  <script src="/libs/jquery/jquery-pjax/jquery.pjax.js"></script>
+  <script src="/html/scripts/ajax.js"></script>
+  <script src="/libs/jquery/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="/libs/jquery/plugins/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+  <script src="/libs/jquery/moment/moment.min.js"></script>
+  <script src="/libs/jquery/fullcalendar/dist/fullcalendar.js"></script>
+  <script src="/libs/jquery/fullcalendar/dist/locale/fr.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+  $(document).ready(function(){
+    setTimeout(function(){
+      $('#notice_wrapper').fadeOut("slow", function() {
+        $(this).remove();
+      })
+    },1500);
+  });
+  </script>
+
+  <%= render "layouts/datatable_script" %>
+  <%= render "layouts/read_option" %>
+  </body>
+</html>

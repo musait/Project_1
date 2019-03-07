@@ -1,0 +1,56 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left" %>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "/layouts/navbar_top" %>
+        <div ui-view class="app-body" id="view">
+          <div class="padding">
+            <div class="box">
+              <div class="box-header">
+                <h2>Demande d'évolutions</h2>
+              </div>
+              <div class="table-responsive">
+                <table id="users" class="table table-striped b-t b-b" class="display" >
+                  <thead>
+                    <tr>
+                      <th  style="width:20%">Nom</th>
+                      <th  style="width:25%">Prénom</th>
+                      <th  style="width:25%">Position actuelle</th>
+                      <th  style="width:15%">Position demandée</th>
+                      <th  style="width:15%">Accepter ?</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+
+                      <% PositionValidation.all.each do |u| %>
+                        <% if u.approved == false %>
+                          <tr>
+                            <td style="width:16.66%"> <%=u.user.surname%> </td>
+                            <td style="width:16.66%"> <%=u.user.lastname%> </td>
+                            <td style="width:16.66%"> <%=u.user.positions[0].name%> </td>
+                            <td style="width:16.66%"> <%if u.position_id == 1%>
+                            <%binding.pry%>
+                                                        <%= @positions.find(2).name%>
+                                                      <%elsif u.position_id ==2%>
+                                                        <%= @positions.find(3).name%>
+                                                      <%elsif u.position_id ==3%>
+                                                        <%= @positions.find(4).name%>
+                                                      <%elsif u.position_id ==4%>
+                                                        <%= @positions.find(5).name%>
+                                                      <%end%> </td>
+                            <td style="width:8.33%">
+                              <%=form_for u do |f| %>
+                                <%= f.hidden_field :approved, value: true %>
+                                <%= f.submit "Accepter",class:"btn btn-primary"%>
+                              <%end%>
+                            </td>
+                          </tr>
+                        <%end%>
+                      <%end%>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

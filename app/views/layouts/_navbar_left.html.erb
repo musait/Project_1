@@ -1,0 +1,92 @@
+<div id="aside" class="app-aside modal nav-dropdown">
+  <!-- fluid app aside -->
+  <div class="left navside dark dk" data-layout="column">
+    <div class="navbar no-radius">
+      <!-- brand -->
+      <a class="navbar-brand">
+        <div ui-include="'/html/assets/images/logo.svg'"></div>
+        <img src="/html/assets/images/logo.png" alt="." class="hide">
+        <span class="hidden-folded inline">Flatkit</span>
+      </a>
+      <!-- / brand -->
+    </div>
+    <div class="hide-scroll" data-flex>
+      <nav class="scroll nav-light">
+        <ul class="nav" ui-nav>
+          <li>
+            <a href="index.html" >
+              <span class="nav-icon">
+                <i class="material-icons">&#xe3fc;
+                 
+                </i>
+              </span>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <%= link_to admin_users_path, :method => :get do %>
+              <span class="nav-label">
+                <b class="label rounded label-sm primary"><%=User.all.count%></b>
+              </span>
+              <span class="nav-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="nav-text">Utilisateurs</span>
+            <%end%>
+          </li>
+
+          <li>
+          <%= link_to admin_id_path, :method => :get do %>
+              <span class="nav-label">
+                <b class="label rounded label-sm primary"><%=IdentificationNumber.all.count%></b>
+              </span>
+              <span class="nav-icon">
+                <i class="material-icons">&#xe8f0;</i>
+              </span>
+              <span class="nav-text">Numéro d'identification</span>
+            <%end%>
+          </li>
+          <li>
+          <%= link_to admin_formations_path, :method => :get do %>
+              <span class="nav-label">
+                <b class="label rounded label-sm primary"><%=Formation.all.count%></b>
+              </span>
+              <span class="nav-icon">
+                <i class="fa fa-book"></i>
+              </span>
+              <span class="nav-text">Formations</span>
+            <%end%>
+          </li>
+          <li>
+          <%= link_to admin_calendar_path, :method => :get do %>
+              <span class="nav-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="nav-text">Calendrier</span>
+            <%end%>
+          </li>
+          <li>
+          <%= link_to admin_upgrade_path, :method => :get do %>
+              <span class="nav-label">
+
+                <b class="label rounded label-sm primary"> <% arr = []%>
+                                                            <%PositionValidation.all.each do |f|%>
+                                                              <%if f.approved == false%>
+                                                                <%arr << f%>
+                                                              <%end%>
+                                                            <%end%>
+                                                            <%=arr.count%>
+                                                          </b>
+              </span>
+              <span class="nav-icon">
+                <i class="fa fa-plus-square"></i>
+              </span>
+              <span class="nav-text">Demande d'évolutions</span>
+            <%end%>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left" %>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "/layouts/navbar_top" %>
+        <div ui-view class="app-body" id="view">
+          <div class="padding">
+            <div class="box">
+              <div class="box-header">
+                <h2>Utilisateurs</h2>
+              </div>
+              <div class="table-responsive">
+                <table id="users" class="table table-striped b-t b-b" class="display" >
+                  <thead>
+                    <tr>
+                      <th  style="width:20%">Nom</th>
+                      <th  style="width:25%">Prénom</th>
+                      <th  style="width:25%">Position</th>
+                      <th  style="width:15%">N° d'identification</th>
+                      <th  style="width:15%">Admin ?</th>
+                      <th  style="width:15%">Modifier</th>
+                      <th  style="width:15%">Supprimer</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <% User.all.each do |u| %>
+                      <tr>
+                      <td style="width:16.66%"> <%=u.lastname%> </td>
+                      <td style="width:16.66%"> <%=u.surname%> </td>
+                      <td style="width:16.66%"> <%=u.positions[0].name%> </td>
+                      <td style="width:16.66%"> <%=u.id_number%> </td>
+                      <td style="width:16.66%"> <%= u.admin == true ? "Oui": "Non" %> </td>
+                      <td style="width:8.33%">
+                        <% if current_user.admin? %>
+                          <%= link_to "Modifier", edit_admin_user_path(id: u) %>
+                        <% end %>
+                      </td>
+                      <td style="width:8.33%">
+                        <% if current_user.admin? %>
+                          <%= link_to "Supprimer", user_registration_url(id: u), method: :delete,data: { confirm: "Êtes vous sûr de vouloir supprimer cet élément ?" } %>
+                        <% end %>
+                      </td>
+                    </tr>
+                      <%end%>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

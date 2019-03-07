@@ -1,0 +1,50 @@
+<div class="app" id="app">
+  <%=render "/layouts/navbar_left"%>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "/layouts/navbar_top" %>
+      <div ui-view="ui-view" class="app-body" id="view">
+        <div class="padding">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="box">
+                <%= form_for [:admin, @formation] do |f| %>
+                  <div class="box-header">
+                    <h2>Modifier la formation</h2>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <%=f.label :titre%>
+                    <%= f.text_field :title, placeholder: "Titre",class:"form-control rounded"%>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <%=f.label :description%>
+                    <%= f.text_field :description, placeholder: "Description",class:"form-control rounded" %>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <%=f.label :lien_youtube%>
+                    <%= f.text_field :link, placeholder: "Lien Youtube",class:"form-control rounded" %>
+                    <small>Veuillez s'il vous plait intégrer le bon lien Youtube(avec le "embed") Vous pouvez trouver ce lien ici : (A voir comment décrire la manip) </small>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <%=f.label :positions_autorisées_à_voir_cette_formation%> <br>
+                    <%= f.collection_check_boxes(:position_ids, Position.all,:id,:name) do |b| %>
+                        <%= b.label %>
+                        <%= b.check_box class:"ui-check"%>
+                      <% end %>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <%=f.label :priorité_de_la_formation%>
+                    <%= f.text_field :position_number, placeholder: "Placement",class:"form-control rounded"%>
+                  </div>
+                  <div class="p-a text-right">
+                    <%= f.submit "Envoyer",class:"btn btn-primary" %>
+                  </div>
+                <%end%>
+              </div>
+              <%= link_to "Back", :back %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

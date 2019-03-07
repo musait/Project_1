@@ -1,0 +1,48 @@
+<div class="app" id="app">
+  <%=render "/layouts/navbar_left"%>
+    <div id="content" class="app-content box-shadow-z0" role="main">
+      <%= render "/layouts/navbar_top" %>
+      <div ui-view="ui-view" class="app-body" id="view">
+        <div class="padding">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="box">
+                <%= form_for [:admin, @user] do |f| %>
+                  <div class="box-header">
+                    <h2>Modifier les infos utilisateurs</h2>
+                  </div>
+                  <div class="box-body">
+                    <div class="form-group">
+                      <%= f.label :nom %><br/>
+                      <%= f.text_field :lastname, class:"form-control rounded" %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :prénom %><br/>
+                      <%= f.text_field :surname, class:"form-control rounded" %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :email %>
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email",class:"form-control rounded" %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :numéro_identification %>
+                      <%= f.text_field :id_number,class:"form-control rounded" %>
+                    </div>
+                    <div class="checkbox">
+                      <p>Voulez-vous que cet utilisateur soit admin ?</p>
+                      <%=f.select :admin ,[["Oui", true], ["Non", false]], :include_blank => false ,class:"form-control" %>
+                    </div>
+                  </div>
+                  <div class="dker p-a text-right">
+                    <%= f.submit "Modifier",class:"btn info" %>
+                  </div>
+                <%end%>
+              </div>
+              <%= link_to "Back", :back %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

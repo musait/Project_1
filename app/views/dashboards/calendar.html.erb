@@ -1,0 +1,105 @@
+<div class="app" id="app">
+  <%= render "/layouts/navbar_left_user" %>
+  <div id="content" class="app-content box-shadow-z0" role="main">
+    <%= render "layouts/navbar_top" %>
+    <%= render "layouts/footer_right" %>
+    <div ui-view="ui-view" class="app-body" id="view">
+      <!-- ############ PAGE START-->
+      <div class="padding">
+        <div class="row m-b">
+        </div>
+        <div id="calendar"></div>
+        <div id="remote_container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+var linktomodif = '<%=link_to "Edit",edit_admin_event_path(id:0), remote: true, class: "btn btn-primary btn-sm", id: "modify"%>';
+var linktodelete = '<%= link_to "Supprimer",admin_event_path(id:0), method: :delete, data: { confirm: "Êtes vous sûr de vouloir supprimer cet élément ?" }, class: "btn btn-danger btn-sm"%>'
+var initialize_calendar;
+initialize_calendar = function() {
+  $('#calendar').each(function(){
+    var calendar = $(this);
+    calendar.fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      selectHelper: true,
+      editable: true,
+      eventLimit: true,
+      displayEventTime: false,
+      events: '/admin/events.json',
+//-----------------------------------------------------------------------
+// fonction qui sert à display les infos d'un event dans un popover
+      eventRender: function(event, element) {
+        $(element).popover({
+          placement: 'top',
+          trigger: 'hover click',
+          html : true,
+          title : event.title,
+          content : '<p>' + "Début : " + event.start.format('ddd Do MMM YYYY à h:mm a  ') + '</p><p>' + "Fin : " + event.end.format('ddd Do MMM YYYY à h:mm a') + '<p>' + event.description + '</p><p>'+ event.address.number + ' '+ event.address.voie_type + ' '+ event.address.street + ' '+ event.address.postal_code + ' '+ event.address.city + '</p><p>'+
+          'Organisateur: '+event.user.surname + ' '+ event.user.lastname + '</p>'
+        });
+      },
+//-----------------------------------------------------------------------
+// fonction qui sert à display une modal de création d'event lors d'un clique sur une date
+      select: function(start, end) {
+        $.getScript('/admin/events/new', function() {});
+        $('#new_event').modal('show');
+
+
+        calendar.fullCalendar('unselect');
+      },
+//-----------------------------------------------------------------------
+// fonction qui permet de déclencher une modal edit lors du clique sur le bouton edit du popover
+      eventClick: function(event, jsEvent, view) {
+        document.getElementById("modify").addEventListener("click", functionModify);
+
+        function functionModify() {
+          $.getScript('/admin/events/'+event.id+'/edit', function() {});
+          
+        }
+        document.getElementById("delete").addEventListener("click", functionDelete);
+
+        function functionDelete() {
+          $.getScript('/admin/events/'+event.id, function() {});
+        }
+        calendar.fullCalendar('unselect');
+      },
+//-----------------------------------------------------------------------
+// fonction permettant la modification des dates des evenement en drag&drop dans le calendrier
+      eventDrop: function(event, delta, revertFunc) {
+        event_data = {
+          event: {
+            id: event.id,
+            title: event.title,
+            description: event.description,
+            address_number: event.address.number,
+            address_voie: event.address.voie_type,
+            address_street: event.address.street,
+            address_postal_code: event.address.postal_code,
+            address_city: event.address.city,
+            user_id: event.user_id,
+            start: event.start.format(),
+            end: event.end.format()
+          }
+        };
+        $.ajax({
+            url: event.update_url,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: event_data,
+            type: 'POST'
+        });
+      },
+//-----------------------------------------------------------------------
+    });
+  });
+};
+$(document).on('turbolinks:load', initialize_calendar);
+
+</script>
